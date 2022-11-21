@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 @Configuration
 public class EmailValidator {
 
-    private static final String EMAIL_PATTERN =  "^(?=.{1,64}@)[A-Za-z0-9_-]+([A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+([A-Za-z0-9-]+)*([A-Za-z]{2,})$";
+    private static final String EMAIL_PATTERN =  "^(.+)@(\\S+)$";
 
     public boolean isValid(String email){
         return (EmailValidator.patternMatches(email, EMAIL_PATTERN));
