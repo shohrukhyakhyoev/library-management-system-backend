@@ -21,7 +21,7 @@ public class BookService {
 
     public void registerNewBook(Book book) {
         // once librarian enters isbn, if it exists: autofill other input fields
-        if (repository.findByISBN(book.getISBN()).isEmpty()) {
+        if (!repository.findByISBN(book.getISBN()).isPresent()) {
             repository.save(book);
         }
 
