@@ -28,7 +28,6 @@ public class BookService {
         }
 
         for (int i=1; i<=total; i++){
-            book.incrementNumberOfBookItems();
             bookItemService.addNewBookItem(new BookItem(BookStatus.AVAILABLE, isbn));
         }
     }
@@ -48,6 +47,15 @@ public class BookService {
 
     public Book findByISBN(Long isbn) {
         return repository.findByISBN(isbn).get();
+    }
+
+    public Boolean getNumberOfAvailableBooks(Long isbn) {
+        if (!bookItemService.findTopByISBNAndStatus(isbn, BookStatus.AVAILABLE)
+                .isEmpty()) {
+            return Boolean.TRUE;
+        }
+
+        return Boolean.FALSE;
     }
 }
 

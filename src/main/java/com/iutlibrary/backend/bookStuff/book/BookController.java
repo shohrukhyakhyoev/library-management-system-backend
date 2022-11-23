@@ -39,4 +39,10 @@ public class BookController {
     public List<Book> findByAuthor(@RequestParam("author") String author){
         return bookService.findByAuthor(author);
     }
+
+    // returns boolean value true if there are available book items
+    @GetMapping("/available")
+    public Boolean getNumberOfAvailableBooks(@RequestParam("ISBN") Long isbn){
+        return bookService.getNumberOfAvailableBooks(isbn);
+    }
 }

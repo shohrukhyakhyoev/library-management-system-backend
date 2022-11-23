@@ -1,13 +1,10 @@
 package com.iutlibrary.backend.student;
 
 import com.iutlibrary.backend.bookStuff.book.Book;
-import com.iutlibrary.backend.fine.Fine;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
 
 @AllArgsConstructor
 @RestController
@@ -29,5 +26,13 @@ public class StudentController {
                            @RequestParam(name = "studentId") String studentId){
         return studentService.reportLost(book, studentId);
     }
+
+
+    @PostMapping("/ask")
+    public ResponseEntity<Object> askLibrarian(@RequestParam("topic") String topic,
+                                               @RequestBody String message) {
+        return studentService.askLibrarian(topic, message);
+    }
+
 
 }

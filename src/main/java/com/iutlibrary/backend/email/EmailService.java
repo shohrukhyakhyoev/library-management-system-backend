@@ -22,14 +22,14 @@ public class EmailService implements EmailSender {
         try{
             SimpleMailMessage message = new SimpleMailMessage();
 
-            message.setFrom("shohrukhyakhyoev@gmail.com");
+            message.setFrom("noreplyinhalibrary@gmail.com");
             message.setTo(toEmail);
             message.setText(body);
             message.setSubject(subject);
 
             mailSender.send(message);
         } catch (MailSendException e){
-            throw new ApiRequestException(e.getMessage());
+            throw new ApiRequestException("Message has not been sent successfully!");
         }
     }
 }

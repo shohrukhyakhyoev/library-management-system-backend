@@ -110,13 +110,4 @@ public class Book {
         this.numberOfAvailableBookItems = numberOfBookItems;
     }
 
-    public void incrementNumberOfBookItems() {
-        numberOfAvailableBookItems +=1;
-    }
-    public void decrementNumberOfBookItems(){
-        if (numberOfAvailableBookItems == 0){
-            return;
-        }
-        numberOfAvailableBookItems -=1;
-    }
 }

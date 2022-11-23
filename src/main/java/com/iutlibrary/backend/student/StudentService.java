@@ -136,4 +136,13 @@ public class StudentService {
                 "You are fined to " + Constants.FINE_FOR_LOST + " sums.", HttpStatus.OK);
     }
 
+
+    // test if this works with message type of String.
+    public ResponseEntity<Object> askLibrarian(String topic, String message) {
+        List<Account> librarians = accountService.findAllByRole(AppUserRole.LIBRARIAN);
+        librarians.forEach(librarian ->
+                emailSender.send(librarian.getEmail(), message, topic));
+
+        return new ResponseEntity<>("Email has been successfully sent!", HttpStatus.OK);
+    }
 }
