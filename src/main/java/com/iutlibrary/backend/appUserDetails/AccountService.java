@@ -26,8 +26,6 @@ public class AccountService implements UserDetailsService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final EmailValidator emailValidator;
 
-    // todo email validation
-
     @Override
     public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
         Optional<Account> account = repository.findByMemberId(memberId);

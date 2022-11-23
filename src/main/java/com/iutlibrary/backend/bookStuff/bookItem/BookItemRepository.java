@@ -25,5 +25,5 @@ public interface BookItemRepository extends JpaRepository<BookItem, Long> {
     List<BookItem> findByISBN(Long isbn);
 
     @Query("UPDATE BookItem b SET b.status = ?2 WHERE b.barcode = ?1")
-    int updateStatus(Long barcode, BookStatus newStatus);
+    long updateStatus(Long barcode, BookStatus newStatus);
 }

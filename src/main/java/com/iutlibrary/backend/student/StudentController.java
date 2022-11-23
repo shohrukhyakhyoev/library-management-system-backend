@@ -28,10 +28,12 @@ public class StudentController {
     }
 
 
+    // need also student email to add in topic so that librarian knows who sent the message
     @PostMapping("/ask")
     public ResponseEntity<Object> askLibrarian(@RequestParam("topic") String topic,
+                                               @RequestParam("email") String email,
                                                @RequestBody String message) {
-        return studentService.askLibrarian(topic, message);
+        return studentService.askLibrarian(topic, message, email);
     }
 
 

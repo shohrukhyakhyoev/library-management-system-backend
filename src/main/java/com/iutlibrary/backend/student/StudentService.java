@@ -138,10 +138,10 @@ public class StudentService {
 
 
     // test if this works with message type of String.
-    public ResponseEntity<Object> askLibrarian(String topic, String message) {
+    public ResponseEntity<Object> askLibrarian(String topic, String message, String email) {
         List<Account> librarians = accountService.findAllByRole(AppUserRole.LIBRARIAN);
         librarians.forEach(librarian ->
-                emailSender.send(librarian.getEmail(), message, topic));
+                emailSender.send(librarian.getEmail(), message, topic + ": from " + email));
 
         return new ResponseEntity<>("Email has been successfully sent!", HttpStatus.OK);
     }

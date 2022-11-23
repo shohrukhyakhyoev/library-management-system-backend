@@ -41,10 +41,9 @@ public class BookItemService {
         return repository.findByISBN(isbn);
     }
 
-    public ResponseEntity<Object> deleteBookItems(BookItem bookItem) {
-
-        // TODO check whether delete is working, write check function
-        repository.delete(bookItem);
+    @Transactional
+    public ResponseEntity<Object> deleteBookItem(Long barcode ) {
+        repository.deleteById(barcode);
         return new ResponseEntity<>("BookItems are deleted", HttpStatus.OK);
     }
 

@@ -2,7 +2,6 @@ package com.iutlibrary.backend.email;
 
 import com.iutlibrary.backend.exception.ApiRequestException;
 import lombok.AllArgsConstructor;
-import org.springframework.mail.MailException;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

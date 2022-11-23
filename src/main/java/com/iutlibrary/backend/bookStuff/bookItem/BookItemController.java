@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,11 +41,11 @@ public class BookItemController {
         return bookItemService.findTopByISBNAndStatus(isbn, status);
     }
 
-    // select ONLY ONE bookItem with particular status and delete them
+    // select ONLY ONE bookItem: BORROWED is NOT ALLOWED TO CLICK.
     @DeleteMapping("/delete")
-    public ResponseEntity<Object> deleteBookItems(@RequestBody BookItem bookItem){
+    public ResponseEntity<Object> deleteBookItem(@RequestParam("barcode") Long barcode){
         // todo statuses are same right? available or lost
-        return bookItemService.deleteBookItems(bookItem);
+        return bookItemService.deleteBookItem(barcode);
     }
 
     @PutMapping("/update")
