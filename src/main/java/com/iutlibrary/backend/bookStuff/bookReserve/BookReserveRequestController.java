@@ -10,6 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/reserve")
 @AllArgsConstructor
+@CrossOrigin(maxAge = 3600)
 public class BookReserveRequestController {
 
     @Autowired

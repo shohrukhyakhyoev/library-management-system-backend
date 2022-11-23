@@ -9,6 +9,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/book")
+@CrossOrigin(maxAge = 3600)
 public class BookController {
     private final BookService bookService;
 

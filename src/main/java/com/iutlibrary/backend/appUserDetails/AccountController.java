@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1")
+@CrossOrigin(maxAge = 3600)
 public class AccountController {
 
     private final AccountService accountService;
