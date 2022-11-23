@@ -20,6 +20,5 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     Optional<Account> findByMemberIdOrEmail(String memberId, String email);
 
     // todo test if this works: delete
-    @Query("DELETE FROM Account a WHERE a.memberId = ?1")
-    long deleteByMemberId(String memberId);
+    long deleteAccountByMemberId(String memberId);
 }

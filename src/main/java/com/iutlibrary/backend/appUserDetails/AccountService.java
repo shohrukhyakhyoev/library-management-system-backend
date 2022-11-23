@@ -74,7 +74,7 @@ public class AccountService implements UserDetailsService {
 
     @Transactional
     public ResponseEntity<Object> deleteAccount(String memberId){
-        long isDeleted = repository.deleteByMemberId(memberId);
+        long isDeleted = repository.deleteAccountByMemberId(memberId);
         
          if (isDeleted == 0L){
              throw new ApiRequestException("Deletion failed!");
