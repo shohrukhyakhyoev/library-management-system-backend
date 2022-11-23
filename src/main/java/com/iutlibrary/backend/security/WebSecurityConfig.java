@@ -61,6 +61,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated().and()
                 .httpBasic()
                 .and().formLogin();
+
+        http.cors();
     }
 
     @Override

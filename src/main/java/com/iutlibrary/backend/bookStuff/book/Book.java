@@ -31,6 +31,8 @@ public class Book {
     private int numberOfPages;
     private LocalDate publicationDate;
 
+    private Integer numberOfAvailableBookItems;
+
     public Book(Long ISBN, String title,
                 String subject, String author,
                 String language, int numberOfPages,
@@ -98,5 +100,23 @@ public class Book {
 
     public void setPublicationDate(LocalDate publicationDate) {
         this.publicationDate = publicationDate;
+    }
+
+    public Integer getNumberOfAvailableBookItems() {
+        return numberOfAvailableBookItems;
+    }
+
+    public void setNumberOfBookItems(Integer numberOfBookItems) {
+        this.numberOfAvailableBookItems = numberOfBookItems;
+    }
+
+    public void incrementNumberOfBookItems() {
+        numberOfAvailableBookItems +=1;
+    }
+    public void decrementNumberOfBookItems(){
+        if (numberOfAvailableBookItems == 0){
+            return;
+        }
+        numberOfAvailableBookItems -=1;
     }
 }

@@ -19,13 +19,18 @@ public class BookService {
     @Autowired
     private final BookItemService bookItemService;
 
-    public void registerNewBook(Book book) {
-        // once librarian enters isbn, if it exists: autofill other input fields
-        if (!repository.findByISBN(book.getISBN()).isPresent()) {
+    public void registerNewBook(Book book, int total) {
+
+        Long isbn = book.getISBN();
+
+        if (!repository.findByISBN(isbn).isPresent()) {
             repository.save(book);
         }
 
-        bookItemService.addNewBookItem(new BookItem(BookStatus.AVAILABLE, book.getISBN()));
+        for (int i=1; i<=total; i++){
+            book.incrementNumberOfBookItems();
+            bookItemService.addNewBookItem(new BookItem(BookStatus.AVAILABLE, isbn));
+        }
     }
 
     public List<Book> getAll() {

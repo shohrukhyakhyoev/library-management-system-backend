@@ -1,10 +1,7 @@
 package com.iutlibrary.backend.bookStuff.book;
 
 
-import com.iutlibrary.backend.utility.enums.BookStatus;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,8 +14,9 @@ public class BookController {
 
 
     @PostMapping("/add")
-    public void registerNewBook(@RequestBody Book book) {
-        bookService.registerNewBook(book);
+    public void registerNewBook(@RequestBody Book book,
+                                @RequestParam("total") int total) {
+        bookService.registerNewBook(book, total);
     }
 
     @GetMapping("/all")
