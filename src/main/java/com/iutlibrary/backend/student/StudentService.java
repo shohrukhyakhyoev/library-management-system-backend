@@ -27,6 +27,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.*;
 
+import static org.assertj.core.util.Strings.concat;
+
 @Service
 @Transactional
 @AllArgsConstructor
@@ -141,7 +143,7 @@ public class StudentService {
     public ResponseEntity<Object> askLibrarian(String topic, String message, String email) {
         List<Account> librarians = accountService.findAllByRole(AppUserRole.LIBRARIAN);
         librarians.forEach(librarian ->
-                emailSender.send(librarian.getEmail(), message, topic + ": from " + email));
+                emailSender.send(librarian.getEmail(), message, concat(topic + ": from " + email)));
 
         return new ResponseEntity<>("Email has been successfully sent!", HttpStatus.OK);
     }
