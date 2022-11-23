@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,11 +71,12 @@ public class AccountService implements UserDetailsService {
         
         return new ResponseEntity<>("New user has been successfully added.", HttpStatus.OK);
     }
-    
+
+    @Transactional
     public ResponseEntity<Object> deleteAccount(String memberId){
-        repository.deleteByMemberId(memberId);
+        long isDeleted = repository.deleteByMemberId(memberId);
         
-         if (repository.findByMemberId(memberId).isPresent()){
+         if (isDeleted == 0L){
              throw new ApiRequestException("Deletion failed!");
          }
         

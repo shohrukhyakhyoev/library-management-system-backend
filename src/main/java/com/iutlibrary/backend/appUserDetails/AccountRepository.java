@@ -21,5 +21,5 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     // todo test if this works: delete
     @Query("DELETE FROM Account a WHERE a.memberId = ?1")
-    int deleteByMemberId(String memberId);
+    long deleteByMemberId(String memberId);
 }
