@@ -16,7 +16,6 @@ import java.util.Optional;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/bookItem")
-@CrossOrigin(maxAge = 3600)
 public class BookItemController {
 
     private final BookItemService bookItemService;

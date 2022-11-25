@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/librarian")
-@CrossOrigin(maxAge = 3600)
 public class LibrarianController {
 
     private final LibrarianService librarianService;
