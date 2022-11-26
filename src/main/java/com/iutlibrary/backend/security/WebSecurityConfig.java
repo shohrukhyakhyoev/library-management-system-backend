@@ -4,30 +4,43 @@ import com.iutlibrary.backend.appUserDetails.AccountService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @AllArgsConstructor
 @EnableWebSecurity
+@EnableWebMvc
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final AccountService accountService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        return source;
+    }
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         
         http
+                .cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/v1/login")
+                .antMatchers(HttpMethod.OPTIONS, "/api/v1/login")
                 .permitAll()
                 .antMatchers("/api/v1/registration")
                 .permitAll()
@@ -38,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/v1/bookItem/delete", "/api/v1/bookItem/update", "/api/v1/reservation/all",
                         "/api/v1/reservation/status/", "/api/v1/reservation/barcode", "/api/v1/reserve/all",
                         "/api/v1/fine/all", "/api/v1/fine/all/reason", "/api/v1/fine/delete",
-                        "/api/v1/librarian/issueBook", "/api/v1/librarian/returnBook" )
+                        "/api/v1/librarian/issueBook", "/api/v1/librarian/returnBook")
                 .hasAuthority("LIBRARIAN")
 
 
@@ -47,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .hasAnyAuthority("STUDENT", "LIBRARIAN")
 
                 .antMatchers("/api/v1/student/reserveBook", "/api/v1/student/reportLost",
-                        "/api/v1/reservation/student/active", "/api/v1//reservation/student/history" )
+                        "/api/v1/reservation/student/active", "/api/v1//reservation/student/history")
                 .hasAuthority("STUDENT")
 
                 .antMatchers("/api/v1/admin/all", "/api/v1/librarian/all", "/api/v1/admin/delete", "/api/v1/admin/add")
@@ -80,11 +93,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setUserDetailsService(accountService);
         return provider;
     }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-        return authConfig.getAuthenticationManager();
-    }
-
-
 }

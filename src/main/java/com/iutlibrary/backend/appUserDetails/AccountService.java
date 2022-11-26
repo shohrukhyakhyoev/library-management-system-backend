@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -29,11 +30,11 @@ public class AccountService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
         Optional<Account> account = repository.findByMemberId(memberId);
-        
-        if (account.isPresent()){
+
+        if (account.isPresent()) {
             return account.get();
         }
-        
+
         throw new ApiRequestException(String.format("User with Id '%s' is not found.", memberId));
     }
 
@@ -41,10 +42,10 @@ public class AccountService implements UserDetailsService {
         return repository.findAllByRole(role);
     }
 
-    public Account findByMemberId(String memberId){
+    public Account findByMemberId(String memberId) {
         Optional<Account> account = repository.findByMemberId(memberId);
-        
-        if (account.isPresent()){
+
+        if (account.isPresent()) {
             return account.get();
         }
 
@@ -53,7 +54,7 @@ public class AccountService implements UserDetailsService {
 
     public ResponseEntity<Object> addAccount(Account account) {
         if (repository.findByMemberIdOrEmail(account.getMemberId(), account.getEmail())
-                .isPresent()){
+                .isPresent()) {
             throw new ApiRequestException("This MemberId or Email already exists.");
         }
 
@@ -63,24 +64,24 @@ public class AccountService implements UserDetailsService {
 
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         repository.save(account);
-        
+
         repository.findByMemberId(account.getMemberId())
                 .orElseThrow(() -> new ApiRequestException("New app user addition failed!"));
-        
+
         return new ResponseEntity<>("New user has been successfully added.", HttpStatus.OK);
     }
 
     @Transactional
-    public ResponseEntity<Object> deleteAccount(String memberId){
+    public ResponseEntity<Object> deleteAccount(String memberId) {
         long isDeleted = repository.deleteAccountByMemberId(memberId);
-        
-         if (isDeleted == 0L){
-             throw new ApiRequestException("Deletion failed!");
-         }
-        
+
+        if (isDeleted == 0L) {
+            throw new ApiRequestException("Deletion failed!");
+        }
+
         return new ResponseEntity<>("Successfully deleted.", HttpStatus.OK);
     }
-    
+
 
     public ResponseEntity<Object> singUpUser(Account account) {
         account.setPassword(passwordEncoder.encode(account.getPassword()));
