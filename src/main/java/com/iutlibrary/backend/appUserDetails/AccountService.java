@@ -31,7 +31,7 @@ public class AccountService implements UserDetailsService {
         Optional<Account> account = repository.findByMemberId(memberId);
         
         if (account.isPresent()){
-            return Account.build(account.get());
+            return account.get();
         }
         
         throw new ApiRequestException(String.format("User with Id '%s' is not found.", memberId));
