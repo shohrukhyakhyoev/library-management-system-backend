@@ -50,5 +50,4 @@ public class AccountController {
         return accountService.addAccount(account);
     }
 
-
 }

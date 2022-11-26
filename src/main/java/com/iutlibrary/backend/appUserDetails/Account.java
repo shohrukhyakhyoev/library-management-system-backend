@@ -56,18 +56,6 @@ public class Account implements UserDetails {
         this.role = role;
     }
 
-
-    public static Account build(Account account) {
-        return new Account(
-                account.memberId,
-                account.password,
-                account.firstName,
-                account.lastName,
-                account.email,
-                account.role);
-    }
-
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority =
