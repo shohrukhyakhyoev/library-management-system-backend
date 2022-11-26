@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @Configuration
 @AllArgsConstructor
 @EnableWebSecurity
-@CrossOrigin(maxAge = 3600)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final AccountService accountService;
@@ -61,8 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .anyRequest()
                 .authenticated().and()
-                .httpBasic()
-                .and().formLogin();
+                .httpBasic();
     }
 
     @Override

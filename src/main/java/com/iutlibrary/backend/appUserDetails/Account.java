@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -54,6 +55,18 @@ public class Account implements UserDetails {
         this.email = email;
         this.role = role;
     }
+
+
+    public static Account build(Account account) {
+        return new Account(
+                account.memberId,
+                account.password,
+                account.firstName,
+                account.lastName,
+                account.email,
+                account.role);
+    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
