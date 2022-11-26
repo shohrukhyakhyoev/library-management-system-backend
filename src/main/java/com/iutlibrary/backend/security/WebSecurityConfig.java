@@ -18,7 +18,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @Configuration
 @AllArgsConstructor
 @EnableWebSecurity
-@EnableWebMvc
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final AccountService accountService;
