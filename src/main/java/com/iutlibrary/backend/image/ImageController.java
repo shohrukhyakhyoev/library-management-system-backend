@@ -17,7 +17,7 @@ public class ImageController {
     private ImageService imageService;
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile file,
+    public ResponseEntity<String> uploadImage(@RequestBody MultipartFile file,
                                               @RequestParam("ISBN") Long isbn)
             throws IOException {
         return imageService.uploadImage(file, isbn);
