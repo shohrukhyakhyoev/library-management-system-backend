@@ -1,10 +1,7 @@
 package com.iutlibrary.backend.registration;
 
 import com.iutlibrary.backend.utility.enums.AppUserRole;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 @AllArgsConstructor
 @Getter
