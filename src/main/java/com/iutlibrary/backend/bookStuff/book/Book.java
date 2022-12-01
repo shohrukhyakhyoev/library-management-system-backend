@@ -29,14 +29,12 @@ public class Book {
     private String author;
     private String language;
     private int numberOfPages;
-    private LocalDate publicationDate;
-
-    private Integer numberOfAvailableBookItems;
+    private Long publicationDate;
 
     public Book(Long ISBN, String title,
                 String subject, String author,
                 String language, int numberOfPages,
-                LocalDate publicationDate) {
+                Long publicationDate) {
         this.ISBN = ISBN;
         this.title = title;
         this.subject = subject;
@@ -94,20 +92,12 @@ public class Book {
         this.numberOfPages = numberOfPages;
     }
 
-    public LocalDate getPublicationDate() {
+    public Long getPublicationDate() {
         return publicationDate;
     }
 
-    public void setPublicationDate(LocalDate publicationDate) {
+    public void setPublicationDate(Long publicationDate) {
         this.publicationDate = publicationDate;
-    }
-
-    public Integer getNumberOfAvailableBookItems() {
-        return numberOfAvailableBookItems;
-    }
-
-    public void setNumberOfBookItems(Integer numberOfBookItems) {
-        this.numberOfAvailableBookItems = numberOfBookItems;
     }
 
 }
