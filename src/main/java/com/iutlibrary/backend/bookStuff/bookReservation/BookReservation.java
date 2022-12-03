@@ -3,6 +3,7 @@ package com.iutlibrary.backend.bookStuff.bookReservation;
 import com.iutlibrary.backend.utility.enums.ReservationStatus;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 
 @Entity

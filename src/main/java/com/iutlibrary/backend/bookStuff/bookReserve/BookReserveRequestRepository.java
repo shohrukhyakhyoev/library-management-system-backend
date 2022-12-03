@@ -9,5 +9,7 @@ public interface BookReserveRequestRepository extends JpaRepository<BookReserveR
     @Query("SELECT b FROM BookReserveRequest b WHERE b.ISBN = ?1 AND b.studentId = ?2")
     Optional<BookReserveRequest> findBookRequestByISBN(Long ISBN, String studentId);
 
+    long deleteBookReserveRequestByISBN(Long ISBN);
+
 }
 

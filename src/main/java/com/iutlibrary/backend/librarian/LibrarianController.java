@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1/librarian")
-public class LibrarianController {
+@RequestMapping("/api/v1/librarian") public class LibrarianController {
 
     private final LibrarianService librarianService;
 

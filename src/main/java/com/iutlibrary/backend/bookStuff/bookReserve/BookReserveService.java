@@ -26,7 +26,8 @@ public class BookReserveService {
         return repository.findBookRequestByISBN(isbn, studentId);
     }
 
+    @Transactional
     public void delete(BookReserveRequest bookReserveRequest) {
-        repository.delete(bookReserveRequest);
+        repository.deleteBookReserveRequestByISBN(bookReserveRequest.getISBN());
     }
 }

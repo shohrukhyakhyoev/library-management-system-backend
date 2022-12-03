@@ -128,12 +128,15 @@ public class LibrarianService {
             response = "Student with ID: " + bookReservation.getStudentId() + " has " +
                     "returned book: " + bookReservation.getTitle() + " with OVERDUE. Fine is calculated (" + Constants.FINE_FOR_LOST + " sums) " +
                     "and is informed to student by notification";
+            bookReservation.setStatus(ReservationStatus.COMPLETED);
+
         } else {
             response = "Student with ID: " + bookReservation.getStudentId() +
                     " has returned book: " + bookReservation.getTitle() + " in due time.";
         }
 
-        bookReservation.setStatus(ReservationStatus.COMPLETED);
+        bookReservationService.updateStatus(ReservationStatus.COMPLETED, bookReservation.getBarcode());
+//        bookReservation.setStatus(ReservationStatus.COMPLETED);
 
         List<Optional<RequestBook>> requestBook = requestBookService.
                 findRequestBookByISBN(bookReservation.getISBN());

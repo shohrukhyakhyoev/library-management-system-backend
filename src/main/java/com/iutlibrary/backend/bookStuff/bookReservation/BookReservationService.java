@@ -55,4 +55,9 @@ public class BookReservationService {
     public BookReservation findByBarcode(Long barcode) {
         return repository.findBookReservationByBarcode(barcode,  ReservationStatus.COMPLETED);
     }
+
+    public void updateStatus(ReservationStatus status, Long barcode){
+        repository.updateStatus(status, barcode);
+    }
+
 }

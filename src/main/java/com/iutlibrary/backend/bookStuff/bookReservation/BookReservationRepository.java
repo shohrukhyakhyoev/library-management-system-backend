@@ -1,8 +1,11 @@
 package com.iutlibrary.backend.bookStuff.bookReservation;
 
+import com.iutlibrary.backend.utility.enums.BookStatus;
 import com.iutlibrary.backend.utility.enums.ReservationStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,4 +31,12 @@ public interface BookReservationRepository extends JpaRepository<BookReservation
 
     @Query("SELECT b FROM BookReservation b WHERE b.barcode = ?1 AND b.status <> ?2")
     BookReservation findBookReservationByBarcode(Long barcode, ReservationStatus completed);
+
+
+
+    @Modifying
+    @Query("update BookReservation b set b.status = ?1 where b.barcode = ?2")
+    void updateStatus(ReservationStatus status, Long barcode);
+
+
 }
