@@ -28,6 +28,7 @@ public class BookReservation {
     private String studentId;
     private LocalDate creationDate;
     private LocalDate returnDate;
+    private String author;
 
     public BookReservation() {
     }
@@ -35,7 +36,8 @@ public class BookReservation {
     public BookReservation(String title, Long ISBN, Long bookItemBarcode,
                            String studentId, ReservationStatus status,
                            LocalDate creationDate,
-                           LocalDate returnDate) {
+                           LocalDate returnDate,
+                           String author) {
         this.title = title;
         this.ISBN = ISBN;
         this.barcode = bookItemBarcode;
@@ -43,6 +45,8 @@ public class BookReservation {
         this.status = status;
         this.creationDate = creationDate;
         this.returnDate = returnDate;
+        this.author = author;
+
     }
 
     public Long getBarcode() {
@@ -97,8 +101,18 @@ public class BookReservation {
         return returnDate;
     }
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
     public void setReturnDate(LocalDate returnDate) {
         this.returnDate = returnDate;
+
+
     }
 
 }

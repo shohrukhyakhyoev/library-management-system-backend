@@ -28,6 +28,7 @@ import javax.transaction.Transactional;
 import java.util.*;
 
 import static org.assertj.core.util.Strings.concat;
+import static org.assertj.core.util.Strings.quote;
 
 @Service
 @Transactional
@@ -106,21 +107,23 @@ public class StudentService {
                             "Overdue",
                                     bookReservation.getISBN(),
                                     bookReservation.getBarcode(),
-                                    Constants.FINE_FOR_OVERDUE);
+                                    Constants.FINE_FOR_OVERDUE,
+                                    bookReservation.getTitle());
 
             emailSender.send(student.getEmail(), "Dear Student, \n\nYou submitted " + bookReservation.getTitle() + " book within Overdue." +
                     " Thus, a fine of " + Constants.FINE_FOR_OVERDUE + " is registered to you. \n\nRegards, \n IUT Library" , "New Fine");
 
         }
 
-        bookReservation.setStatus(ReservationStatus.COMPLETED);
+        bookReservationService.updateStatus(ReservationStatus.COMPLETED, bookReservation.getBarcode());
 
         fineService.addNewFine(
                         bookReservation.getStudentId(),
                         "Lost",
                         bookReservation.getISBN(),
                         bookReservation.getBarcode(),
-                        Constants.FINE_FOR_LOST);
+                        Constants.FINE_FOR_LOST,
+                        bookReservation.getTitle());
 
         emailSender.send(student.getEmail(), "Dear Student, \n\nYou reported the lost of " + bookReservation.getTitle() + "." +
                 " Thus, a fine of " + Constants.FINE_FOR_LOST + " is registered to you. \n\nRegards, \n IUT Library" , "New Fine");
@@ -139,7 +142,6 @@ public class StudentService {
     }
 
 
-    // test if this works with message type of String.
     public ResponseEntity<Object> askLibrarian(String topic, String message, String email) {
         List<Account> librarians = accountService.findAllByRole(AppUserRole.LIBRARIAN);
         librarians.forEach(librarian ->

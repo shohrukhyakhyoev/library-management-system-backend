@@ -44,7 +44,7 @@ public class BookItemService {
     @Transactional
     public ResponseEntity<Object> deleteBookItem(Long barcode ) {
         repository.deleteById(barcode);
-        return new ResponseEntity<>("BookItems are deleted", HttpStatus.OK);
+        return new ResponseEntity<>("BookItem is deleted", HttpStatus.OK);
     }
 
     public ResponseEntity<Object> updateStatus(Long barcode, BookStatus newStatus) {

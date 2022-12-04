@@ -27,13 +27,16 @@ public class Fine {
     private Long ISBN;
     private Long barcode;
     private Long amount;
+    private String title;
 
-    public Fine(String studentId, String reason, Long ISBN, Long barcode, Long amount) {
+    public Fine(String studentId, String reason, Long ISBN,
+                Long barcode, Long amount, String title) {
         this.studentId = studentId;
         this.reason = reason;
         this.ISBN = ISBN;
         this.barcode = barcode;
         this.amount = amount;
+        this.title = title;
     }
 
     public String getStudentId() {
@@ -72,5 +75,13 @@ public class Fine {
 
     public void setAmount(Long amount) {
         this.amount = amount;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

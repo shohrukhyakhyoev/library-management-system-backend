@@ -15,8 +15,8 @@ public class FineService {
     private final FineRepository repository;
 
     public void addNewFine(String studentId, String reason,
-                           Long ISBN, Long barcode, Long amount){
-        repository.save(new Fine(studentId, reason, ISBN, barcode, amount));
+                           Long ISBN, Long barcode, Long amount, String title){
+        repository.save(new Fine(studentId, reason, ISBN, barcode, amount, title));
     }
     public List<Fine> getAllFines() {
         return repository.findAll();

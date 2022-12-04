@@ -3,6 +3,8 @@ package com.iutlibrary.backend.librarian;
 
 import com.iutlibrary.backend.appUserDetails.Account;
 import com.iutlibrary.backend.appUserDetails.AccountService;
+import com.iutlibrary.backend.bookStuff.book.Book;
+import com.iutlibrary.backend.bookStuff.book.BookService;
 import com.iutlibrary.backend.bookStuff.bookItem.BookItem;
 import com.iutlibrary.backend.bookStuff.bookItem.BookItemService;
 import com.iutlibrary.backend.bookStuff.bookRequest.RequestBook;
@@ -33,6 +35,8 @@ import java.util.*;
 public class LibrarianService {
 
     @Autowired
+    private final BookService bookService;
+    @Autowired
     private final BookItemService bookItemService;
     @Autowired
     private final BookReservationService bookReservationService;
@@ -53,6 +57,7 @@ public class LibrarianService {
         BookItem bookItem = bookItemService.findByBarcode(bookReserveRequest.getBarcode())
                 .orElseThrow(()-> new ApiRequestException("Reserved book item cannot be found in the database."));
 
+        Book book = bookService.findByISBN(bookItem.getISBN());
 
         if (Objects.equals(decision, "Accept")) {
 
@@ -63,7 +68,8 @@ public class LibrarianService {
                     bookReserveRequest.getStudentId(),
                     ReservationStatus.PENDING,
                     LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), LocalDate.now().getDayOfMonth()),
-                    Constants.DEADLINE));
+                    Constants.DEADLINE,
+                    book.getAuthor()));
 
             bookItem.setStatus(BookStatus.RESERVED);
 
@@ -99,7 +105,6 @@ public class LibrarianService {
             }
         }
 
-        // todo check if delete works
         bookReserveService.delete(bookReserveRequest);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -118,7 +123,8 @@ public class LibrarianService {
                     "Overdue",
                     bookReservation.getISBN(),
                     bookReservation.getBarcode(),
-                    Constants.FINE_FOR_OVERDUE
+                    Constants.FINE_FOR_OVERDUE,
+                    bookReservation.getTitle()
                     );
 
             Account student = accountService.findByMemberId(bookReservation.getStudentId());
@@ -136,7 +142,6 @@ public class LibrarianService {
         }
 
         bookReservationService.updateStatus(ReservationStatus.COMPLETED, bookReservation.getBarcode());
-//        bookReservation.setStatus(ReservationStatus.COMPLETED);
 
         List<Optional<RequestBook>> requestBook = requestBookService.
                 findRequestBookByISBN(bookReservation.getISBN());
