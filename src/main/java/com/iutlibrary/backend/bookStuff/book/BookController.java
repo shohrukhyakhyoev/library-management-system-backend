@@ -29,17 +29,17 @@ public class BookController {
         return bookService.findByISBN(isbn);
     }
 
-    @GetMapping("/search/title")
+    @GetMapping("/search")
     public List<Book> findByTitle(@RequestParam("title") String title){
         return bookService.findByTitle(title);
     }
 
-    @GetMapping("/search/author")
+    @GetMapping("/search")
     public List<Book> findByAuthor(@RequestParam("author") String author){
         return bookService.findByAuthor(author);
     }
 
-    @GetMapping("/search/subject")
+    @GetMapping("/search")
     public List<Book> findBySubject(@RequestParam("subject") String author){
         return bookService.findBySubject(author);
     }

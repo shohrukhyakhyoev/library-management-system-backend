@@ -39,31 +39,31 @@ public class BookReservationController {
     }
 
     // search by filter: status: active & overdue in general of all students
-    @GetMapping("/status")
+    @GetMapping("/search")
     public List<BookReservation> getByStatus(@RequestParam("status") ReservationStatus status){
         return bookReservationService.findByStatus(status);
     }
 
     // search by filter: barcode
-    @GetMapping("/barcode")
+    @GetMapping("/search")
     public BookReservation getByBarcode(@RequestParam("barcode") Long barcode){
         return bookReservationService.findByBarcode(barcode);
     }
 
     // search by filter: title
-    @GetMapping("/title")
+    @GetMapping("/search")
     public List<BookReservation> getByTitle(@RequestParam("title") String title){
         return bookReservationService.findByTitle(title);
     }
 
     // for table in students' block in librarian dashboard
-    @GetMapping("/active")
+    @GetMapping("/search/active")
     public List<BookReservation> getActiveReservationsOfStudent(@RequestParam("studentId") String studentId){
         return bookReservationService.findActiveById(studentId);
     }
 
     // for table in students' block in librarian dashboard
-    @GetMapping("/overdue")
+    @GetMapping("/search/overdue")
     public List<BookReservation> getOverdueReservationsOfStudent(@RequestParam("studentId") String studentId){
         return bookReservationService.findOverdueById(studentId);
     }

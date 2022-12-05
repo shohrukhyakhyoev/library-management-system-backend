@@ -26,8 +26,21 @@ public class BookReserveService {
         return repository.findBookRequestByISBN(isbn, studentId);
     }
 
+    public List<BookReserveRequest> findBookRequestByBookTitle(String title) {
+        return repository.findBookRequestByBookTitle(title);
+    }
+
+    public BookReserveRequest findBookRequestByOnlyISBN(Long isbn) {
+        return repository.findAllByISBN(isbn);
+    }
+
+    public BookReserveRequest findBookRequestByStudentId(String studentId){
+        return repository.findByAllStudentId(studentId);
+    }
+
     @Transactional
     public void delete(BookReserveRequest bookReserveRequest) {
         repository.deleteBookReserveRequestByISBN(bookReserveRequest.getISBN());
     }
+
 }

@@ -15,10 +15,24 @@ public class BookReserveRequestController {
     @Autowired
     private final BookReserveService bookReserveService;
 
-
     @GetMapping("/all")
     public List<BookReserveRequest> getAllBookReserveRequest(){
         return bookReserveService.getAllBookReserveRequest();
+    }
+
+    @GetMapping("/search")
+    private List<BookReserveRequest> getAllByTitle(@RequestParam("title") String title){
+        return bookReserveService.findBookRequestByBookTitle(title);
+    }
+
+    @GetMapping("/search")
+    private BookReserveRequest getAllByTitle(@RequestParam("ISBN") Long isbn){
+        return bookReserveService.findBookRequestByOnlyISBN(isbn);
+    }
+
+    @GetMapping("/search")
+    private BookReserveRequest getAllByStudentId(@RequestParam("studentId") String studentId){
+        return bookReserveService.findBookRequestByStudentId(studentId);
     }
 
 }
