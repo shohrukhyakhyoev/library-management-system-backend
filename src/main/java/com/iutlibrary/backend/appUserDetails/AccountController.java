@@ -16,19 +16,9 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    @GetMapping("/admin/all")
-    public List<Account> getAllAdmins(){
-        return accountService.findAllByRole(AppUserRole.ADMIN);
-    }
-
-    @GetMapping("/student/all")
-    public List<Account> getAllStudents(){
-        return accountService.findAllByRole(AppUserRole.STUDENT);
-    }
-
-    @GetMapping("/librarian/all")
-    public List<Account> getAllLibrarians(){
-        return accountService.findAllByRole(AppUserRole.LIBRARIAN);
+    @GetMapping("/users/all")
+    public List<Account> getAllAdmins(@RequestParam("role") AppUserRole role){
+        return accountService.findAllByRole(role);
     }
 
     @GetMapping("/quantity")
@@ -36,14 +26,9 @@ public class AccountController {
         return accountService.findAllByRole(role).size();
     }
 
-    @GetMapping("/student")
-    public Account getOneStudent(@RequestParam(name = "studentId") String studentId){
+    @GetMapping("/search")
+    public Account getOneStudent(@RequestParam(name = "memberId") String studentId){
         return accountService.findByMemberId(studentId);
-    }
-
-    @GetMapping("/librarian")
-    public Account getOneLibrarian(@RequestParam(name = "librarianId") String librarianId){
-        return accountService.findByMemberId(librarianId);
     }
 
     @DeleteMapping("/admin/delete")
