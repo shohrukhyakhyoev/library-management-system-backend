@@ -20,12 +20,6 @@ public class BookItemController {
 
     private final BookItemService bookItemService;
 
-    // for dashboard: front end gets size of list
-    @GetMapping("/status")
-    public List<BookItem> getBookItems(@RequestParam("status") String status){
-        return bookItemService.findBookItemByStatus(status);
-    }
-
     // fill table once librarian clicks the book
     // if list is empty, then empty table, no need for exception
     @GetMapping("/isbn")
@@ -40,6 +34,12 @@ public class BookItemController {
         return bookItemService.findTopByISBNAndStatus(isbn, status);
     }
 
+    // for dashboard: front end gets size of list
+    @GetMapping("/quantity")
+    public Integer getQuantityOfBookItems(@RequestParam("status") String status){
+        return bookItemService.findBookItemByStatus(status).size();
+    }
+
     // select ONLY ONE bookItem: BORROWED is NOT ALLOWED TO CLICK.
     @DeleteMapping("/delete")
     public ResponseEntity<Object> deleteBookItem(@RequestParam("barcode") Long barcode){
@@ -52,6 +52,5 @@ public class BookItemController {
                                                        @RequestParam("newStatus") BookStatus newStatus){
         return bookItemService.updateStatus(barcode, newStatus);
     }
-
 
 }

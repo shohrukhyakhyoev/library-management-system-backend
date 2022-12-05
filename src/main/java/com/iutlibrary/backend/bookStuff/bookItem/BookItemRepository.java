@@ -15,7 +15,7 @@ public interface BookItemRepository extends JpaRepository<BookItem, Long> {
     @Query("SELECT b FROM BookItem b WHERE b.ISBN = ?1 AND b.status = ?2")
     List<BookItem> findTopByISBNAndStatus(Long ISBN, BookStatus bookStatus);
 
-    @Query("SELECT b From BookItem b WHERE b.status = ?1")
+    @Query("SELECT b From BookItem b WHERE lower(b.status) = lower(?1)")
     List<BookItem> findBookItemByStatus(String status);
 
     @Query("SELECT b From BookItem b WHERE b.barcode = ?1")

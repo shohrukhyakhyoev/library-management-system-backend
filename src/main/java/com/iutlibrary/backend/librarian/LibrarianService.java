@@ -107,6 +107,8 @@ public class LibrarianService {
 
         bookReserveService.delete(bookReserveRequest);
 
+        bookService.updateAvailabilityStatus(bookItem.getISBN());
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -165,6 +167,8 @@ public class LibrarianService {
         } else {
             bookItem.setStatus(BookStatus.AVAILABLE);
         }
+
+        bookService.updateAvailabilityStatus(bookItem.getISBN());
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

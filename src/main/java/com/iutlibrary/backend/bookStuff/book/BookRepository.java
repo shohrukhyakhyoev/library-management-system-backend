@@ -1,5 +1,6 @@
 package com.iutlibrary.backend.bookStuff.book;
 
+import com.iutlibrary.backend.bookStuff.bookItem.BookItem;
 import com.iutlibrary.backend.utility.enums.BookStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,5 +21,4 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Query("SELECT b FROM Book b WHERE lower(b.subject) LIKE lower(concat('%', :subject, '%')) ")
     List<Book> findBySubject(String subject);
-
 }

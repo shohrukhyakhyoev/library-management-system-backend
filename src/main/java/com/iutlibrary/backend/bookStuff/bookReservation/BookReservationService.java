@@ -20,8 +20,13 @@ public class BookReservationService {
     @Autowired
     private final BookReservationRepository repository;
 
+    public void addNewReservation(BookReservation bookReservation) {
+        repository.save(bookReservation);
+    }
+
     public List<BookReservation> findAllPending() {
         // updates status if it is overdue before showing in table
+        // #TODO must be updated everywhere (below functions)
         List<BookReservation> reservations = repository.findAllPendingReservations(ReservationStatus.COMPLETED);
 
         reservations.forEach(bookReservation -> {
@@ -40,24 +45,39 @@ public class BookReservationService {
         return repository.findActiveBookReservationByISBN(isbn, studentId, completed);
     }
 
-    public List<BookReservation> findActiveById(String studentId, ReservationStatus completed) {
-        return repository.findActiveBookReservationByMemberId(studentId, completed);
+    public BookReservation findByBarcode(Long barcode) {
+        return repository.findBookReservationByBarcode(barcode,  ReservationStatus.COMPLETED);
+    }
+
+    public List<BookReservation> findByTitle(String title) {
+        return repository.findBookReservationByTitle(title);
+    }
+
+    public List<BookReservation> findAllOfStudent(String studentId) {
+        return repository.findAllByStudentId(studentId);
+    }
+
+    public List<BookReservation> findInUseById(String studentId, ReservationStatus completed) {
+        return repository.findInUseByMemberId(studentId, completed);
+    }
+
+    public List<BookReservation> findActiveById(String studentId) {
+        return repository.findActiveBookReservationByMemberId(studentId, ReservationStatus.PENDING);
+    }
+
+    public List<BookReservation> findOverdueById(String studentId) {
+        return repository.findOverdueByMemberId(studentId, ReservationStatus.OVERDUE);
     }
 
     public List<BookReservation> findCompletedById(String studentId) {
         return repository.findCompletedReservationsOfStudent(studentId, ReservationStatus.COMPLETED);
     }
 
-    public void addNewReservation(BookReservation bookReservation) {
-        repository.save(bookReservation);
-    }
-
-    public BookReservation findByBarcode(Long barcode) {
-        return repository.findBookReservationByBarcode(barcode,  ReservationStatus.COMPLETED);
-    }
-
     public void updateStatus(ReservationStatus status, Long barcode){
         repository.updateStatus(status, barcode);
     }
 
+    public List<BookReservation> findByTitleOfStudent(String studentId, String title) {
+        return repository.findAllOfStudentByTitle(studentId, title);
+    }
 }

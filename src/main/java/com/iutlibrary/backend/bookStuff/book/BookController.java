@@ -44,9 +44,4 @@ public class BookController {
         return bookService.findBySubject(author);
     }
 
-    // returns boolean value true if there are available book items
-    @GetMapping("/available")
-    public Boolean getNumberOfAvailableBooks(@RequestParam("ISBN") Long isbn){
-        return bookService.getNumberOfAvailableBooks(isbn);
-    }
 }

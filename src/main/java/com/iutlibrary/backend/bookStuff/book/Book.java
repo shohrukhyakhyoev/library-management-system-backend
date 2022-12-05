@@ -38,6 +38,8 @@ public class Book {
     @Column(length = 1000)
     private byte[] imageData;
 
+    private Boolean isAvailable;
+
     public Book(Long ISBN, String title,
                 String subject, String author,
                 String language, int numberOfPages,
@@ -113,5 +115,13 @@ public class Book {
 
     public void setImageData(byte[] imageData) {
         this.imageData = ImageUtil.compressImage(imageData);
+    }
+
+    public Boolean getAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(Boolean available) {
+        isAvailable = available;
     }
 }

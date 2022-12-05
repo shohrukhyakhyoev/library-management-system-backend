@@ -3,6 +3,7 @@ package com.iutlibrary.backend.student;
 import com.iutlibrary.backend.appUserDetails.Account;
 import com.iutlibrary.backend.appUserDetails.AccountService;
 import com.iutlibrary.backend.bookStuff.book.Book;
+import com.iutlibrary.backend.bookStuff.book.BookService;
 import com.iutlibrary.backend.bookStuff.bookItem.BookItem;
 import com.iutlibrary.backend.bookStuff.bookItem.BookItemService;
 import com.iutlibrary.backend.bookStuff.bookRequest.RequestBook;
@@ -19,6 +20,7 @@ import com.iutlibrary.backend.utility.enums.BookStatus;
 import com.iutlibrary.backend.utility.enums.ReservationStatus;
 import com.iutlibrary.backend.utility.Constants;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -33,13 +35,22 @@ import static org.assertj.core.util.Strings.concat;
 @AllArgsConstructor
 public class StudentService {
 
+    @Autowired
     private final BookReservationService bookReservationService;
+    @Autowired
     private final BookReserveService bookReserveService;
+    @Autowired
     private final BookItemService bookItemService;
+    @Autowired
     private final RequestBookService requestBookService;
+    @Autowired
     private final FineService fineService;
+    @Autowired
     private final AccountService accountService;
+    @Autowired
     private final EmailSender emailSender;
+    @Autowired
+    private final BookService bookService;
 
 
     public ResponseEntity<Object> reserveBook(Book book, String studentId){
@@ -69,7 +80,7 @@ public class StudentService {
 
         if (!searchedBookItems.isEmpty()) {
             int totalActiveBooks = bookReservationService.
-                    findActiveById(studentId, ReservationStatus.COMPLETED).size();
+                    findInUseById(studentId, ReservationStatus.COMPLETED).size();
             if (totalActiveBooks >= Constants.MAX_BOOKS_ISSUED_TO_A_USER) {
                 throw new ApiRequestException("You have already reserved the maximum allowed number of book items.");
             }
@@ -84,6 +95,8 @@ public class StudentService {
             response = "This book is not available now. You will be " +
                     "informed by notification once the book is available again.";
         }
+
+        bookService.updateAvailabilityStatus(searchedBookItems.get(0).getISBN());
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -124,15 +137,17 @@ public class StudentService {
                         bookReservation.getTitle());
 
         emailSender.send(student.getEmail(), "Dear Student, \n\nYou reported the lost of " + bookReservation.getTitle() + "." +
-                " Thus, a fine of " + Constants.FINE_FOR_LOST + " is registered to you. \n\nRegards, \n IUT Library" , "New Fine");
+                " Thus, a fine of " + Constants.FINE_FOR_LOST + " is registered to you. \n\nRegards,\nIUT Library" , "New Fine");
 
         bookItem.setStatus(BookStatus.LOST);
+        bookService.updateAvailabilityStatus(book.getISBN());
+
 
         List<Account> librarians = accountService.findAllByRole(AppUserRole.LIBRARIAN);
         librarians.forEach(librarian ->
                 emailSender.send(librarian.getEmail(), "Dear Librarian, \n\n" + "Student with id " + bookReservation.getStudentId() +
                         " has reported the lost of the issued book. Here are book details: \n " + "Book ISBN: " +bookReservation.getISBN() +
-                        "\nBookItem barcode: " + bookReservation.getBarcode() + "\nRegards, \nIUT Library", "Student Book Lost Report"));
+                        "\nBookItem barcode: " + bookReservation.getBarcode() + "\nRegards,\nIUT Library", "Student Book Lost Report"));
 
 
         return new ResponseEntity<>("Your report has been successfully sent." +

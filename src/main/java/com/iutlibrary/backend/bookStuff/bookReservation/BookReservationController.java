@@ -11,19 +11,19 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/reservation")
 public class BookReservationController {
     private final BookReservationService bookReservationService;
 
     // for return in librarian
-    @GetMapping("/reservation/all")
+    @GetMapping("/all")
     public List<BookReservation> getAllPending(){
         return bookReservationService.findAllPending();
     }
 
 
     // details of one reservation --> when librarian clicks the row in return
-    @GetMapping("/reservation/one")
+    @GetMapping("/one")
     public BookReservation getOneReservation(@RequestParam("ISBN") Long isbn,
                                              @RequestParam("studentId") String studentId,
                                              @RequestParam("status") ReservationStatus status){
@@ -31,28 +31,60 @@ public class BookReservationController {
                 .orElseThrow(()->new ApiRequestException("Reservation with given parameters is not found in the database."));
     }
 
-    // search by status: click combo box
-    @GetMapping("/reservation/status/")
+
+    // when id of student is clicked in students block of librarian's dashboard
+    @GetMapping("/student/all")
+    public List<BookReservation> getAllOfStudent(@RequestParam("studentId") String studentId){
+        return bookReservationService.findAllOfStudent(studentId);
+    }
+
+    // search by filter: status: active & overdue in general of all students
+    @GetMapping("/status")
     public List<BookReservation> getByStatus(@RequestParam("status") ReservationStatus status){
         return bookReservationService.findByStatus(status);
     }
 
-    // search by filter: type in search bar
-    @GetMapping("/reservation/barcode")
+    // search by filter: barcode
+    @GetMapping("/barcode")
     public BookReservation getByBarcode(@RequestParam("barcode") Long barcode){
         return bookReservationService.findByBarcode(barcode);
     }
 
-    // active books of student
-    @GetMapping("/reservation/student/active")
-    public List<BookReservation> getActiveReservationsOfStudent(@RequestParam("studentId") String studentId){
-        return bookReservationService.findActiveById(studentId, ReservationStatus.COMPLETED);
+    // search by filter: title
+    @GetMapping("/title")
+    public List<BookReservation> getByTitle(@RequestParam("title") String title){
+        return bookReservationService.findByTitle(title);
     }
 
-    // history books of student
-    @GetMapping("/reservation/student/history")
+    // for table in students' block in librarian dashboard
+    @GetMapping("/active")
+    public List<BookReservation> getActiveReservationsOfStudent(@RequestParam("studentId") String studentId){
+        return bookReservationService.findActiveById(studentId);
+    }
+
+    // for table in students' block in librarian dashboard
+    @GetMapping("/overdue")
+    public List<BookReservation> getOverdueReservationsOfStudent(@RequestParam("studentId") String studentId){
+        return bookReservationService.findOverdueById(studentId);
+    }
+
+    // active books of student for profile dashboard
+    @GetMapping("/student/active")
+    public List<BookReservation> getAllInUseOfStudent(@RequestParam("studentId") String studentId){
+        return bookReservationService.findInUseById(studentId, ReservationStatus.COMPLETED);
+    }
+
+    // history books of student and for students block search by status completed
+    @GetMapping("/student/history")
     public List<BookReservation> getCompletedReservationsOfStudent(@RequestParam("studentId") String studentId){
         return bookReservationService.findCompletedById(studentId);
+    }
+
+    // for students block search by title
+    @GetMapping("/student/title")
+    public List<BookReservation> getAllOfStudentByTitle(@RequestParam("title") String title,
+                                                        @RequestParam("studentId") String studentId){
+        return bookReservationService.findByTitleOfStudent(studentId, title);
     }
 
 }

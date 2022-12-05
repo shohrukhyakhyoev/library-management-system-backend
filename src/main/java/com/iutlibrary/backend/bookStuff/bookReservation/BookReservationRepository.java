@@ -17,8 +17,8 @@ public interface BookReservationRepository extends JpaRepository<BookReservation
             "AND b.status <> ?3")
     Optional<BookReservation> findActiveBookReservationByISBN(Long ISBN, String studentId, ReservationStatus status);
 
-    @Query("SELECT b FROM BookReservation b WHERE b.studentId = ?1 AND b.status <> ?2")
-    List<BookReservation> findActiveBookReservationByMemberId(String studentId, ReservationStatus completed);
+    @Query("SELECT b FROM BookReservation b WHERE b.studentId = ?1 AND b.status = ?2")
+    List<BookReservation> findActiveBookReservationByMemberId(String studentId, ReservationStatus active);
 
     @Query("SELECT b FROM BookReservation b WHERE b.studentId = ?1 AND b.status = ?2")
     List<BookReservation> findCompletedReservationsOfStudent(String studentId, ReservationStatus completed);
@@ -32,11 +32,22 @@ public interface BookReservationRepository extends JpaRepository<BookReservation
     @Query("SELECT b FROM BookReservation b WHERE b.barcode = ?1 AND b.status <> ?2")
     BookReservation findBookReservationByBarcode(Long barcode, ReservationStatus completed);
 
-
+    @Query("SELECT b FROM BookReservation b WHERE b.title LIKE concat('%', :title, '%') ")
+    List<BookReservation> findBookReservationByTitle(String title);
 
     @Modifying
     @Query("update BookReservation b set b.status = ?1 where b.barcode = ?2")
     void updateStatus(ReservationStatus status, Long barcode);
 
+    @Query("SELECT b FROM BookReservation b WHERE b.studentId=?1")
+    List<BookReservation> findAllByStudentId(String studentId);
 
+    @Query("SELECT b FROM BookReservation b WHERE b.studentId = ?1 AND b.status <> ?2")
+    List<BookReservation> findInUseByMemberId(String studentId, ReservationStatus completed);
+
+    @Query("SELECT b FROM BookReservation b WHERE b.studentId =?1 AND b.status = ?2")
+    List<BookReservation> findOverdueByMemberId(String studentId, ReservationStatus overdue);
+
+    @Query("SELECT b FROM BookReservation b WHERE b.studentId = ?1 AND b.title LIKE concat('%', :title, '%')")
+    List<BookReservation> findAllOfStudentByTitle(String studentId, String title);
 }

@@ -6,10 +6,12 @@ import com.iutlibrary.backend.utility.enums.BookStatus;
 import com.iutlibrary.backend.bookStuff.bookItem.BookItem;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -35,9 +37,12 @@ public class BookService {
         for (int i=1; i<=total; i++){
             bookItemService.addNewBookItem(new BookItem(BookStatus.AVAILABLE, isbn));
         }
+
+        updateAvailabilityStatus(isbn);
     }
 
     public List<Book> getAll() {
+        List<Book> books = repository.findAll();
         return repository.findAll();
     }
 
@@ -57,13 +62,16 @@ public class BookService {
         return repository.findByISBN(isbn).get();
     }
 
-    public Boolean getNumberOfAvailableBooks(Long isbn) {
-        if (!bookItemService.findTopByISBNAndStatus(isbn, BookStatus.AVAILABLE)
-                .isEmpty()) {
-            return Boolean.TRUE;
-        }
+    public void updateAvailabilityStatus(Long isbn) {
+        Optional<Book> book = repository.findByISBN(isbn);
+        List<BookItem> bookItems = bookItemService.findTopByISBNAndStatus(isbn, BookStatus.AVAILABLE);
 
-        return Boolean.FALSE;
+        if (bookItems.isEmpty()) {
+            book.get().setAvailable(Boolean.TRUE);
+        } else {
+            book.get().setAvailable(Boolean.FALSE);
+        }
     }
+
 }
 
