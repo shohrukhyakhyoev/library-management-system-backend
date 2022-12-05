@@ -4,6 +4,7 @@ import com.iutlibrary.backend.bookStuff.bookItem.BookItemService;
 import com.iutlibrary.backend.image.ImageService;
 import com.iutlibrary.backend.utility.enums.BookStatus;
 import com.iutlibrary.backend.bookStuff.bookItem.BookItem;
+import com.iutlibrary.backend.utility.enums.ReservationStatus;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
@@ -72,6 +73,5 @@ public class BookService {
             book.get().setAvailable(Boolean.FALSE);
         }
     }
-
 }
 

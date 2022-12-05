@@ -1,9 +1,13 @@
 package com.iutlibrary.backend.appUserDetails;
 
 
+import com.iutlibrary.backend.bookStuff.book.BookService;
+import com.iutlibrary.backend.bookStuff.bookReservation.BookReservationService;
 import com.iutlibrary.backend.exception.ApiRequestException;
 import com.iutlibrary.backend.registration.EmailValidator;
 import com.iutlibrary.backend.utility.enums.AppUserRole;
+import com.iutlibrary.backend.utility.enums.ReservationStatus;
+import com.iutlibrary.backend.utility.enums.StudentBasicInfo;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,11 +16,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -26,6 +28,7 @@ public class AccountService implements UserDetailsService {
     private final AccountRepository repository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final EmailValidator emailValidator;
+    private final BookReservationService bookReservationService;
 
     @Override
     public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
@@ -34,7 +37,6 @@ public class AccountService implements UserDetailsService {
         if (account.isPresent()) {
             return account.get();
         }
-
         throw new ApiRequestException(String.format("User with Id '%s' is not found.", memberId));
     }
 
@@ -82,6 +84,26 @@ public class AccountService implements UserDetailsService {
         return new ResponseEntity<>("Successfully deleted.", HttpStatus.OK);
     }
 
+
+    public List<StudentBasicInfo> getStudentsIdAndNoOfReservedBooks(){
+        List<StudentBasicInfo> result = new ArrayList<>();
+
+        List<Account> accounts = repository.findAllByRole(AppUserRole.STUDENT);
+
+        accounts.forEach(account -> {
+            String studentId = account.getMemberId();
+
+            Integer noOfReservedBooks = bookReservationService.findInUseById(
+                    studentId, ReservationStatus.COMPLETED).size();
+
+            result.add(StudentBasicInfo.builder()
+                    .noOfInUseBooks(noOfReservedBooks)
+                    .studentId(studentId)
+                    .build());
+        });
+
+        return result;
+    }
 
     public ResponseEntity<Object> singUpUser(Account account) {
         account.setPassword(passwordEncoder.encode(account.getPassword()));
