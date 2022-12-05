@@ -44,7 +44,6 @@ public class BookService {
     }
 
     public List<Book> getAll() {
-        List<Book> books = repository.findAll();
         return repository.findAll();
     }
 
@@ -66,13 +65,15 @@ public class BookService {
     }
 
     public void updateAvailabilityStatus(Long isbn) {
-        Optional<Book> book = repository.findByISBN(isbn);
+        Book book = repository.findByISBN(isbn).orElseThrow
+                (()-> new ApiRequestException("Book, which isAvailable field was gonna be updated, does not exist!"));
+
         List<BookItem> bookItems = bookItemService.findTopByISBNAndStatus(isbn, BookStatus.AVAILABLE);
 
         if (bookItems.isEmpty()) {
-            book.get().setAvailable(Boolean.TRUE);
+            book.setAvailable(Boolean.TRUE);
         } else {
-            book.get().setAvailable(Boolean.FALSE);
+            book.setAvailable(Boolean.FALSE);
         }
     }
 }
