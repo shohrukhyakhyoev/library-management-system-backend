@@ -19,7 +19,6 @@ import com.iutlibrary.backend.utility.enums.BookStatus;
 import com.iutlibrary.backend.utility.enums.ReservationStatus;
 import com.iutlibrary.backend.utility.Constants;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -28,7 +27,6 @@ import javax.transaction.Transactional;
 import java.util.*;
 
 import static org.assertj.core.util.Strings.concat;
-import static org.assertj.core.util.Strings.quote;
 
 @Service
 @Transactional

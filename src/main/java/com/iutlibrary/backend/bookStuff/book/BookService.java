@@ -1,6 +1,7 @@
 package com.iutlibrary.backend.bookStuff.book;
 
 import com.iutlibrary.backend.bookStuff.bookItem.BookItemService;
+import com.iutlibrary.backend.image.ImageService;
 import com.iutlibrary.backend.utility.enums.BookStatus;
 import com.iutlibrary.backend.bookStuff.bookItem.BookItem;
 import lombok.AllArgsConstructor;
@@ -18,13 +19,17 @@ public class BookService {
     private final BookRepository repository;
     @Autowired
     private final BookItemService bookItemService;
+    @Autowired
+    private final ImageService imageService;
 
     public void registerNewBook(Book book, int total) {
 
         Long isbn = book.getISBN();
 
         if (!repository.findByISBN(isbn).isPresent()) {
+            book.setImageData(imageService.getImage(isbn));
             repository.save(book);
+            imageService.deleteImage(isbn);
         }
 
         for (int i=1; i<=total; i++){

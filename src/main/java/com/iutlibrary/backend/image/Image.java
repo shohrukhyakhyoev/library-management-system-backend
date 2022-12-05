@@ -14,9 +14,6 @@ import javax.persistence.*;
 public class Image {
     @Id
     private Long ISBN;
-    private String name;
-    private String type;
-
     @Lob
     @Column(length = 1000)
     private byte[] imageData;

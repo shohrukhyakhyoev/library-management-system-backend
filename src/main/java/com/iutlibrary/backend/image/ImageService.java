@@ -20,8 +20,6 @@ public class ImageService {
 
         repository.save(Image.builder()
                 .ISBN(isbn)
-                .name(file.getOriginalFilename())
-                .type(file.getContentType())
                 .imageData(ImageUtil.compressImage(file.getBytes())).build());
 
         return new ResponseEntity<>("Image uploaded successfully: " +
@@ -34,6 +32,11 @@ public class ImageService {
     public byte[] getImage(Long isbn) {
         Optional<Image> dbImage = repository.findById(isbn);
         return ImageUtil.decompressImage(dbImage.get().getImageData());
+    }
+
+    @Transactional
+    public void deleteImage(Long isbn){
+        repository.deleteById(isbn);
     }
 
 

@@ -1,9 +1,13 @@
 package com.iutlibrary.backend.bookStuff.book;
 
+import com.iutlibrary.backend.image.Image;
+import com.iutlibrary.backend.image.ImageUtil;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Locale;
 
@@ -30,11 +34,14 @@ public class Book {
     private String language;
     private int numberOfPages;
     private Long publicationDate;
+    @Lob
+    @Column(length = 1000)
+    private byte[] imageData;
 
     public Book(Long ISBN, String title,
                 String subject, String author,
                 String language, int numberOfPages,
-                Long publicationDate) {
+                Long publicationDate) throws IOException {
         this.ISBN = ISBN;
         this.title = title;
         this.subject = subject;
@@ -100,4 +107,11 @@ public class Book {
         this.publicationDate = publicationDate;
     }
 
+    public byte[] getImageData() {
+        return ImageUtil.decompressImage(imageData);
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = ImageUtil.compressImage(imageData);
+    }
 }
