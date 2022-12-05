@@ -1,7 +1,6 @@
 package com.iutlibrary.backend.appUserDetails;
 
 
-import com.iutlibrary.backend.bookStuff.book.BookService;
 import com.iutlibrary.backend.bookStuff.bookReservation.BookReservationService;
 import com.iutlibrary.backend.exception.ApiRequestException;
 import com.iutlibrary.backend.registration.EmailValidator;
@@ -45,13 +44,10 @@ public class AccountService implements UserDetailsService {
     }
 
     public Account findByMemberId(String memberId) {
-        Optional<Account> account = repository.findByMemberId(memberId);
+        return repository.findByMemberId(memberId)
+                .orElseThrow(() -> new ApiRequestException
+                        (String.format("User with Id '%s' is not found.", memberId)));
 
-        if (account.isPresent()) {
-            return account.get();
-        }
-
-        throw new ApiRequestException(String.format("User with Id '%s' is not found.", memberId));
     }
 
     public ResponseEntity<Object> addAccount(Account account) {

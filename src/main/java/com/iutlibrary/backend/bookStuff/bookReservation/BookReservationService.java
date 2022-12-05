@@ -1,5 +1,6 @@
 package com.iutlibrary.backend.bookStuff.bookReservation;
 
+import com.iutlibrary.backend.exception.ApiRequestException;
 import com.iutlibrary.backend.utility.enums.ReservationStatus;
 import com.iutlibrary.backend.utility.Constants;
 import lombok.AllArgsConstructor;
@@ -46,7 +47,8 @@ public class BookReservationService {
     }
 
     public BookReservation findByBarcode(Long barcode) {
-        return repository.findBookReservationByBarcode(barcode,  ReservationStatus.COMPLETED);
+        return repository.findBookReservationByBarcode(barcode, ReservationStatus.COMPLETED)
+                .orElseThrow(()-> new ApiRequestException("Reservation with given barcode does not exist!"));
     }
 
     public List<BookReservation> findByTitle(String title) {

@@ -14,10 +14,10 @@ public interface BookReserveRequestRepository extends JpaRepository<BookReserveR
     List<BookReserveRequest> findBookRequestByBookTitle(String title);
 
     @Query("SELECT b FROM BookReserveRequest b WHERE b.ISBN = ?1")
-    BookReserveRequest findAllByISBN(Long isbn);
+    List<BookReserveRequest> findAllByISBN(Long isbn);
 
     @Query("SELECT b FROM BookReserveRequest b WHERE b.studentId = ?1")
-    BookReserveRequest findByAllStudentId(String studentId);
+    List<BookReserveRequest> findByAllStudentId(String studentId);
 
     long deleteBookReserveRequestByISBN(Long ISBN);
 

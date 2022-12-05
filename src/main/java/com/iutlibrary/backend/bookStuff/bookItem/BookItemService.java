@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,4 +55,5 @@ public class BookItemService {
 
         return new ResponseEntity<>("Status has been successfully updated", HttpStatus.OK);
     }
+
 }

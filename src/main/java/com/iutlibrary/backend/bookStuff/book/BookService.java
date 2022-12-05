@@ -1,6 +1,7 @@
 package com.iutlibrary.backend.bookStuff.book;
 
 import com.iutlibrary.backend.bookStuff.bookItem.BookItemService;
+import com.iutlibrary.backend.exception.ApiRequestException;
 import com.iutlibrary.backend.image.ImageService;
 import com.iutlibrary.backend.utility.enums.BookStatus;
 import com.iutlibrary.backend.bookStuff.bookItem.BookItem;
@@ -60,7 +61,8 @@ public class BookService {
     }
 
     public Book findByISBN(Long isbn) {
-        return repository.findByISBN(isbn).get();
+        return repository.findByISBN(isbn)
+                .orElseThrow(()-> new ApiRequestException("Book with given ISBN does not exist!"));
     }
 
     public void updateAvailabilityStatus(Long isbn) {

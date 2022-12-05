@@ -30,11 +30,11 @@ public class BookReserveService {
         return repository.findBookRequestByBookTitle(title);
     }
 
-    public BookReserveRequest findBookRequestByOnlyISBN(Long isbn) {
+    public List<BookReserveRequest> findBookRequestByOnlyISBN(Long isbn) {
         return repository.findAllByISBN(isbn);
     }
 
-    public BookReserveRequest findBookRequestByStudentId(String studentId){
+    public List<BookReserveRequest> findBookRequestByStudentId(String studentId){
         return repository.findByAllStudentId(studentId);
     }
 

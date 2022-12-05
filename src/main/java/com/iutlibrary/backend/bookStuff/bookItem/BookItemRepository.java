@@ -9,9 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BookItemRepository extends JpaRepository<BookItem, Long> {
-
-
-
     @Query("SELECT b FROM BookItem b WHERE b.ISBN = ?1 AND b.status = ?2")
     List<BookItem> findTopByISBNAndStatus(Long ISBN, BookStatus bookStatus);
 

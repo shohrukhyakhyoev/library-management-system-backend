@@ -31,6 +31,11 @@ public class AccountController {
         return accountService.findAllByRole(AppUserRole.LIBRARIAN);
     }
 
+    @GetMapping("/quantity")
+    public Integer getQuantityOfAppUsers(@RequestParam("role")AppUserRole role){
+        return accountService.findAllByRole(role).size();
+    }
+
     @GetMapping("/student")
     public Account getOneStudent(@RequestParam(name = "studentId") String studentId){
         return accountService.findByMemberId(studentId);

@@ -30,7 +30,7 @@ public interface BookReservationRepository extends JpaRepository<BookReservation
     List<BookReservation> findBookReservationByStatus(ReservationStatus status);
 
     @Query("SELECT b FROM BookReservation b WHERE b.barcode = ?1 AND b.status <> ?2")
-    BookReservation findBookReservationByBarcode(Long barcode, ReservationStatus completed);
+    Optional<BookReservation> findBookReservationByBarcode(Long barcode, ReservationStatus completed);
 
     @Query("SELECT b FROM BookReservation b WHERE b.title LIKE concat('%', :title, '%') ")
     List<BookReservation> findBookReservationByTitle(String title);

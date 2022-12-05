@@ -2,11 +2,13 @@ package com.iutlibrary.backend.fine;
 
 
 
+import com.iutlibrary.backend.exception.ApiRequestException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -26,11 +28,17 @@ public class FineService {
         return repository.findFineByStudentId(studentId);
     }
 
+    public List<Fine> getAllByReason(String reason) {
+        return repository.getAllByReason(reason);
+    }
+
+    public Fine getAllByISBN(Long isbn) {
+        return repository.findOneByISBN(isbn)
+                .orElseThrow(() -> new ApiRequestException("Fine with given ISBN doesn't exist"));
+    }
+
     public void deleteFine(Fine fine){
         repository.delete(fine);
     }
 
-    public List<Fine> getAllByReason(String reason) {
-        return repository.getAllByReason(reason);
-    }
 }

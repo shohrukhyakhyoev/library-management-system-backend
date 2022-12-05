@@ -29,6 +29,11 @@ public class BookController {
         return bookService.findByISBN(isbn);
     }
 
+    @GetMapping("/quantity")
+    public Integer getQuantityOfBooks(){
+        return bookService.getAll().size();
+    }
+
     @GetMapping("/search")
     public List<Book> findByTitle(@RequestParam("title") String title){
         return bookService.findByTitle(title);

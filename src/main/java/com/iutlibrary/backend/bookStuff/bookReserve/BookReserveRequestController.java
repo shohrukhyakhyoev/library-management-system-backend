@@ -26,12 +26,12 @@ public class BookReserveRequestController {
     }
 
     @GetMapping("/search")
-    private BookReserveRequest getAllByTitle(@RequestParam("ISBN") Long isbn){
+    private List<BookReserveRequest> getAllByISBN(@RequestParam("ISBN") Long isbn){
         return bookReserveService.findBookRequestByOnlyISBN(isbn);
     }
 
     @GetMapping("/search")
-    private BookReserveRequest getAllByStudentId(@RequestParam("studentId") String studentId){
+    private List<BookReserveRequest> getAllByStudentId(@RequestParam("studentId") String studentId){
         return bookReserveService.findBookRequestByStudentId(studentId);
     }
 

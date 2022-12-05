@@ -1,17 +1,11 @@
 package com.iutlibrary.backend.bookStuff.bookItem;
 
-import com.iutlibrary.backend.bookStuff.book.Book;
-import com.iutlibrary.backend.exception.ApiRequestException;
+
 import com.iutlibrary.backend.utility.enums.BookStatus;
 import lombok.AllArgsConstructor;
-import org.apache.coyote.Response;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -22,13 +16,13 @@ public class BookItemController {
 
     // fill table once librarian clicks the book
     // if list is empty, then empty table, no need for exception
-    @GetMapping("/isbn")
+    @GetMapping("/search")
     public List<BookItem> getBookItemsByISBN(@RequestParam("isbn") Long isbn){
         return bookItemService.findBookByISBN(isbn);
     }
 
     // fill table of bookItems in book with particular status
-    @GetMapping("/isbn&status")
+    @GetMapping("/search")
     public List<BookItem> getBookItemsByISBN(@RequestParam("isbn") Long isbn,
                                              @RequestParam("status") BookStatus status){
         return bookItemService.findTopByISBNAndStatus(isbn, status);
