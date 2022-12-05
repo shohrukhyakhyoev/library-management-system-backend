@@ -49,6 +49,9 @@ public class BookService {
         return repository.findByAuthor(author);
     }
 
+    public List<Book> findBySubject(String subject) {
+        return repository.findBySubject(subject);
+    }
 
     public Book findByISBN(Long isbn) {
         return repository.findByISBN(isbn).get();
