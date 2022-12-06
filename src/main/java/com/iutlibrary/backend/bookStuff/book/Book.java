@@ -32,7 +32,7 @@ public class Book {
     private String subject;
     private String author;
     private String language;
-    private int numberOfPages;
+    private Integer numberOfPages;
     private Long publicationDate;
     @Lob
     @Column(length = 1000)
@@ -93,11 +93,11 @@ public class Book {
         this.language = language;
     }
 
-    public int getNumberOfPages() {
+    public Integer getNumberOfPages() {
         return numberOfPages;
     }
 
-    public void setNumberOfPages(int numberOfPages) {
+    public void setNumberOfPages(Integer numberOfPages) {
         this.numberOfPages = numberOfPages;
     }
 

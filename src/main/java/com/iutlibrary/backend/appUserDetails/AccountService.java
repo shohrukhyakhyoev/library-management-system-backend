@@ -4,9 +4,10 @@ package com.iutlibrary.backend.appUserDetails;
 import com.iutlibrary.backend.bookStuff.bookReservation.BookReservationService;
 import com.iutlibrary.backend.exception.ApiRequestException;
 import com.iutlibrary.backend.registration.EmailValidator;
+import com.iutlibrary.backend.utility.UserUpdateRequest;
 import com.iutlibrary.backend.utility.enums.AppUserRole;
 import com.iutlibrary.backend.utility.enums.ReservationStatus;
-import com.iutlibrary.backend.utility.enums.StudentBasicInfo;
+import com.iutlibrary.backend.utility.StudentBasicInfo;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -105,5 +106,14 @@ public class AccountService implements UserDetailsService {
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         repository.save(account);
         return new ResponseEntity<>("New account has been added", HttpStatus.ACCEPTED);
+    }
+
+    public ResponseEntity<String> updateMember(UserUpdateRequest userUpdateRequest) {
+        if (repository.updateMember(userUpdateRequest.getEmail(),
+                userUpdateRequest.getFirstName(), userUpdateRequest.getLastName()) == 0){
+            throw new ApiRequestException("User's details are unsuccessfully updated!");
+        }
+
+        return new ResponseEntity<>("User's details are updated successfully", HttpStatus.OK);
     }
 }

@@ -2,6 +2,7 @@ package com.iutlibrary.backend.bookStuff.book;
 
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,6 +48,11 @@ public class BookController {
     @GetMapping("/search")
     public List<Book> findBySubject(@RequestParam("subject") String author){
         return bookService.findBySubject(author);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<String> updateBookDetails(Book book){
+        return bookService.updateBook(book);
     }
 
 }

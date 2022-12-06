@@ -8,6 +8,8 @@ import com.iutlibrary.backend.bookStuff.bookItem.BookItem;
 import com.iutlibrary.backend.utility.enums.ReservationStatus;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
@@ -63,6 +65,16 @@ public class BookService {
         return repository.findByISBN(isbn)
                 .orElseThrow(()-> new ApiRequestException("Book with given ISBN does not exist!"));
     }
+
+    public ResponseEntity<String> updateBook(Book book){
+        if (repository.updateBook(book.getTitle(), book.getAuthor(), book.getLanguage(),
+                book.getNumberOfPages(), book.getSubject(), book.getPublicationDate()) == 0){
+            throw new ApiRequestException("Book's details are unsuccessfully updated!");
+        }
+
+        return new ResponseEntity<>("Book's details are updated successfully", HttpStatus.OK);
+    }
+
 
     public void updateAvailabilityStatus(Long isbn) {
         Book book = repository.findByISBN(isbn).orElseThrow

@@ -1,8 +1,9 @@
 package com.iutlibrary.backend.appUserDetails;
 
 
+import com.iutlibrary.backend.utility.UserUpdateRequest;
 import com.iutlibrary.backend.utility.enums.AppUserRole;
-import com.iutlibrary.backend.utility.enums.StudentBasicInfo;
+import com.iutlibrary.backend.utility.StudentBasicInfo;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,11 @@ public class AccountController {
     @GetMapping("/users/all")
     public List<Account> getAllAdmins(@RequestParam("role") AppUserRole role){
         return accountService.findAllByRole(role);
+    }
+
+    @GetMapping("/students/info")
+    public List<StudentBasicInfo> getStudentsBasicInfo(){
+        return accountService.getStudentsIdAndNoOfReservedBooks();
     }
 
     @GetMapping("/quantity")
@@ -41,9 +47,9 @@ public class AccountController {
         return accountService.addAccount(account);
     }
 
-    @GetMapping("/students/info")
-    public List<StudentBasicInfo> getStudentsBasicInfo(){
-        return accountService.getStudentsIdAndNoOfReservedBooks();
+    @PutMapping("/admin/update")
+    public ResponseEntity<String> updateAppUser(@RequestBody UserUpdateRequest userUpdateRequest){
+        return accountService.updateMember(userUpdateRequest);
     }
 
 }

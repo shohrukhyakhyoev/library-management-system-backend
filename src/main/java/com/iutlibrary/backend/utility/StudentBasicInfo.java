@@ -1,4 +1,4 @@
-package com.iutlibrary.backend.utility.enums;
+package com.iutlibrary.backend.utility;
 
 
 import lombok.AllArgsConstructor;
