@@ -48,6 +48,6 @@ public interface BookReservationRepository extends JpaRepository<BookReservation
     @Query("SELECT b FROM BookReservation b WHERE b.studentId =?1 AND b.status = ?2")
     List<BookReservation> findOverdueByMemberId(String studentId, ReservationStatus overdue);
 
-    @Query("SELECT b FROM BookReservation b WHERE b.studentId = ?1 AND b.title LIKE concat('%', :title, '%')")
+    @Query("SELECT b FROM BookReservation b WHERE b.studentId = ?1 AND b.title LIKE concat('%', ?2, '%')")
     List<BookReservation> findAllOfStudentByTitle(String studentId, String title);
 }

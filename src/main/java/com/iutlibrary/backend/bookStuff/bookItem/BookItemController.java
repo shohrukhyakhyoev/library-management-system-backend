@@ -16,13 +16,13 @@ public class BookItemController {
 
     // fill table once librarian clicks the book
     // if list is empty, then empty table, no need for exception
-    @GetMapping("/search")
+    @GetMapping("/search/isbn")
     public List<BookItem> getBookItemsByISBN(@RequestParam("isbn") Long isbn){
         return bookItemService.findBookByISBN(isbn);
     }
 
     // fill table of bookItems in book with particular status
-    @GetMapping("/search")
+    @GetMapping("/search/status")
     public List<BookItem> getBookItemsByISBN(@RequestParam("isbn") Long isbn,
                                              @RequestParam("status") BookStatus status){
         return bookItemService.findTopByISBNAndStatus(isbn, status);

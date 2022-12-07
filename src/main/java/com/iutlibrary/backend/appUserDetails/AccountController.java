@@ -18,7 +18,7 @@ public class AccountController {
     private final AccountService accountService;
 
     @GetMapping("/users/all")
-    public List<Account> getAllAdmins(@RequestParam("role") AppUserRole role){
+    public List<Account> getAllUsers(@RequestParam("role") AppUserRole role){
         return accountService.findAllByRole(role);
     }
 
@@ -28,7 +28,7 @@ public class AccountController {
     }
 
     @GetMapping("/quantity")
-    public Integer getQuantityOfAppUsers(@RequestParam("role")AppUserRole role){
+    public Integer getQuantityOfUsers(@RequestParam("role")AppUserRole role){
         return accountService.findAllByRole(role).size();
     }
 

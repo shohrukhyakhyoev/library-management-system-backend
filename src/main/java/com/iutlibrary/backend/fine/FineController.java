@@ -20,20 +20,20 @@ public class FineController {
 
     // all fines of one student in student fines
     // also for search by studentId in librarian
-    @GetMapping("/search")
+    @GetMapping("/search/student")
     public List<Fine> getAllFinesOfStudent(
             @RequestParam("studentId") String studentId){
         return fineService.getAllFinesOfStudent(studentId);
     }
 
     // in librarian search by reason
-    @GetMapping("/search")
+    @GetMapping("/search/reason")
     public List<Fine> getAllFinesByReason(@RequestParam("reason") String reason){
         return fineService.getAllByReason(reason);
     }
 
     // in librarian search by isbn
-    @GetMapping("/search")
+    @GetMapping("/search/isbn")
     public Fine getAllFinesByISBN(@RequestParam("ISBN") Long isbn){
         return fineService.getAllByISBN(isbn);
     }

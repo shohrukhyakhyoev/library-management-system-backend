@@ -20,17 +20,17 @@ public class BookReserveRequestController {
         return bookReserveService.getAllBookReserveRequest();
     }
 
-    @GetMapping("/search")
+    @GetMapping("/search/title")
     private List<BookReserveRequest> getAllByTitle(@RequestParam("title") String title){
         return bookReserveService.findBookRequestByBookTitle(title);
     }
 
-    @GetMapping("/search")
+    @GetMapping("/search/ISBN")
     private List<BookReserveRequest> getAllByISBN(@RequestParam("ISBN") Long isbn){
         return bookReserveService.findBookRequestByOnlyISBN(isbn);
     }
 
-    @GetMapping("/search")
+    @GetMapping("/search/student")
     private List<BookReserveRequest> getAllByStudentId(@RequestParam("studentId") String studentId){
         return bookReserveService.findBookRequestByStudentId(studentId);
     }

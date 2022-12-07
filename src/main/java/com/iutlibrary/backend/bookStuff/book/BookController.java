@@ -35,17 +35,17 @@ public class BookController {
         return bookService.getAll().size();
     }
 
-    @GetMapping("/search")
+    @GetMapping("/search/title")
     public List<Book> findByTitle(@RequestParam("title") String title){
         return bookService.findByTitle(title);
     }
 
-    @GetMapping("/search")
+    @GetMapping("/search/author")
     public List<Book> findByAuthor(@RequestParam("author") String author){
         return bookService.findByAuthor(author);
     }
 
-    @GetMapping("/search")
+    @GetMapping("/search/subject")
     public List<Book> findBySubject(@RequestParam("subject") String author){
         return bookService.findBySubject(author);
     }
