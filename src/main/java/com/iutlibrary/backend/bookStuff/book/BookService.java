@@ -83,9 +83,9 @@ public class BookService {
         List<BookItem> bookItems = bookItemService.findTopByISBNAndStatus(isbn, BookStatus.AVAILABLE);
 
         if (bookItems.isEmpty()) {
-            book.setAvailable(Boolean.TRUE);
-        } else {
             book.setAvailable(Boolean.FALSE);
+        } else {
+            book.setAvailable(Boolean.TRUE);
         }
     }
 }

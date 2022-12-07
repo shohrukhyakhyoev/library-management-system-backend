@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
     // todo check whether string param will work
-    @Query("SELECT a FROM Account a WHERE lower(a.role) = lower(?1)")
+    @Query("SELECT a FROM Account a WHERE a.role = ?1")
     List<Account> findAllByRole(AppUserRole role);
 
     @Query("SELECT a FROM Account a WHERE a.memberId = ?1")

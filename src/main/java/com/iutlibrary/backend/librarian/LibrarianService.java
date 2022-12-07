@@ -29,6 +29,9 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.*;
 
+
+
+
 @Service
 @Transactional
 @AllArgsConstructor
@@ -108,7 +111,6 @@ public class LibrarianService {
         bookReserveService.delete(bookReserveRequest);
 
         bookService.updateAvailabilityStatus(bookItem.getISBN());
-
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
