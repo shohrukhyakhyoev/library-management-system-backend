@@ -29,14 +29,23 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.*;
 
-
-
-
+/**
+ * Serves as a service layer for requests associated with manipulation over librarian's data.
+ */
 @Service
 @Transactional
 @AllArgsConstructor
 public class LibrarianService {
 
+    /**
+     * @field bookService used to interact with a book's service.
+     * @field bookItemService used to interact with a book item's service.
+     * @field bookReservationService used to interact with a book reservation's service.
+     * @field requestService used to interact with a book request's service.
+     * @field fineService used to interact with a fine's service.
+     * @field emailSender used to send an email.
+     * @field accountService used to interact with a account's service.
+     */
     @Autowired
     private final BookService bookService;
     @Autowired
@@ -54,6 +63,23 @@ public class LibrarianService {
     @Autowired
     private final AccountService accountService;
 
+    /**
+     * Issues a book to a student.
+     * If decision is Accept, then system registers a new book reservation for this student.
+     * Then it changes a status of book item to RESERVED, which is registered to the student.
+     *
+     * Else if decision is Deny, system checks whether this book is requested from another user
+     * or not. If so, it sends an email notification to the student about availability of the
+     * requested book.
+     *
+     * Otherwise, system updates a book item's status to AVAILABLE.
+     *
+     * Finally, system updates an availability of a book.
+     *
+     * @param decision a string representation of a decision of a librarian regarding issuing a book to a student.
+     * @param bookReserveRequest a BookReserveRequest object representing a reserve request of a student.
+     * @return ResponseEntity object.
+     */
     public ResponseEntity<Object> issueBook(String decision, BookReserveRequest bookReserveRequest) {
         String response;
 
@@ -114,6 +140,23 @@ public class LibrarianService {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * Returns a book from a student back to the system.
+     * System checks firstly whether the reservation lasted the deadline or not. If so,
+     * it registers a new fine with a reason of overdue to the student. Otherwise, no fine
+     * is registered. Then system updates status of reservation to COMPLETED one.
+     *
+     * Following that, system checks whether this book is requested from another student.
+     * If so, this returned book item is automatically registered to this student. Then the
+     * book item's status is updated to RESERVED.
+     *
+     * If no request is found, system updates the book item status to AVAILABLE.
+     *
+     * Finally, system updates an availability of a book.
+     *
+     * @param bookReservation a BookReserveRequest object representing a reserve request of a student.
+     * @return ResponseEntity object.
+     */
     public ResponseEntity<Object> returnBook(BookReservation bookReservation) {
 
         BookItem bookItem = bookItemService.findByBarcode(bookReservation.getBarcode())

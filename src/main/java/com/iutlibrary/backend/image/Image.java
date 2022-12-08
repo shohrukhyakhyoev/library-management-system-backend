@@ -4,6 +4,9 @@ import lombok.*;
 
 import javax.persistence.*;
 
+/**
+ * Represents an image.
+ */
 @Entity
 @Data
 @Builder
@@ -12,6 +15,11 @@ import javax.persistence.*;
 @Getter
 @Setter
 public class Image {
+
+    /**
+     * @field isbn  represents a book's isbn.
+     * @field imageData represents image in byte[] type.
+     */
     @Id
     private Long ISBN;
     @Lob

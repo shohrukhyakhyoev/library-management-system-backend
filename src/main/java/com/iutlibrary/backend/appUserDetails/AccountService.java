@@ -62,6 +62,7 @@ public class AccountService implements UserDetailsService {
      *
      * @param role represents a particular role of an app user.
      * @return list containing details of app users.
+     * @throws ApiRequestException
      */
     public List<Account> findAllByRole(AppUserRole role) {
         return repository.findAllByRole(role);
@@ -79,6 +80,7 @@ public class AccountService implements UserDetailsService {
      *
      * @param account object of a new app user containing all details.
      * @return ResponseEntity object.
+     * @throws ApiRequestException
      */
     public ResponseEntity<Object> addAccount(Account account) {
         if (repository.findByMemberIdOrEmail(account.getMemberId(), account.getEmail())
@@ -104,6 +106,7 @@ public class AccountService implements UserDetailsService {
      *
      * @param memberId id of existing app user whose details will be deleted.
      * @return ResponseEntity object.
+     * @throws ApiRequestException
      */
     @Transactional
     public ResponseEntity<Object> deleteAccount(String memberId) {
@@ -153,9 +156,18 @@ public class AccountService implements UserDetailsService {
         return new ResponseEntity<>("New account has been added", HttpStatus.ACCEPTED);
     }
 
+    /**
+     * Updates details of a certain app user.
+     *
+     * @param userUpdateRequest represents request containing all data fields that are updatable.
+     * So application only accepts this class's object to update existing account's detail.
+     * @return ResponseEntity object.
+     * @throws ApiRequestException
+     */
     public ResponseEntity<String> updateMember(UserUpdateRequest userUpdateRequest) {
         if (repository.updateMember(userUpdateRequest.getEmail(),
-                userUpdateRequest.getFirstName(), userUpdateRequest.getLastName()) == 0){
+                userUpdateRequest.getFirstName(), userUpdateRequest.getLastName(),
+                userUpdateRequest.getMemberId()) == 0){
             throw new ApiRequestException("User's details are unsuccessfully updated!");
         }
 

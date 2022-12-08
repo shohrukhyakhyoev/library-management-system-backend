@@ -17,7 +17,9 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-
+/**
+ * Configures a security in the application.
+ */
 @Configuration
 @AllArgsConstructor
 @EnableWebSecurity

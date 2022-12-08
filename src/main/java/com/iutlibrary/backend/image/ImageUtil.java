@@ -4,8 +4,18 @@ import java.io.ByteArrayOutputStream;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
+/**
+ * Serves as a utility class that compresses and decompresses image.
+ */
 public class ImageUtil {
 
+    /**
+     * Compresses an image before adding it to the database.
+     *
+     * @param data byte[] that represents image data in type of bytes.
+     * @return byte[]
+     * @throws Exception
+     */
     public static byte[] compressImage(byte[] data) {
 
         Deflater deflater = new Deflater();
@@ -26,6 +36,13 @@ public class ImageUtil {
         return outputStream.toByteArray();
     }
 
+    /**
+     * Decompresses an image data from the database before sending it to a client.
+
+     * @param data represents an image data in bytes.
+     * @return byte[]
+     * @throws Exception
+     */
     public static byte[] decompressImage(byte[] data) {
         Inflater inflater = new Inflater();
         inflater.setInput(data);

@@ -30,11 +30,24 @@ import java.util.*;
 
 import static org.assertj.core.util.Strings.concat;
 
+/**
+ * Serves as a service layer for requests associated with manipulation over student's data.
+ */
 @Service
 @Transactional
 @AllArgsConstructor
 public class StudentService {
 
+    /**
+     * @field bookService used to interact with a book's service.
+     * @field bookItemService used to interact with a book item's service.
+     * @field bookReservationService used to interact with a book reservation's service.
+     * @field requestService used to interact with a book request's service.
+     * @field fineService used to interact with a fine's service.
+     * @field emailSender used to send an email.
+     * @field accountService used to interact with a account's service.
+     * @field bookReserveService used to interact with a reserve request coming from a student.
+     */
     @Autowired
     private final BookReservationService bookReservationService;
     @Autowired
@@ -52,7 +65,29 @@ public class StudentService {
     @Autowired
     private final BookService bookService;
 
-
+    /**
+     * Reserves a book for a student.
+     * System firstly checks following things and if at least one condition is satisfied,
+     * system returns an error message:
+     *
+     * if student has a fine.
+     * if student  has already made a request this book.
+     * if student  has already made a reserve request for this book.
+     * if student already has a pending reservation with this book.
+     * if student has already borrowed 5 books.
+     *
+     * If no condition is met above, system then checks whether this book is available or not.
+     * If it is, then it creates a new book reservation of the asked book item for this student
+     * and updates the reserved book item's status to RESERVED.
+     *
+     * If book is not available, then system creates a request record for a student and shows a
+     * message to a student saying that a book item is not available for now, but once it is,
+     * student will be informed via email.
+     *
+     * @param book Book object representing all details of a book.
+     * @param studentId a string value representing a student's id.
+     * @return ResponseEntity object.
+     */
     public ResponseEntity<Object> reserveBook(Book book, String studentId){
 
         String response;
@@ -101,6 +136,22 @@ public class StudentService {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * Reports a loss of book borrowed by a student.
+     *
+     * System terminates a reservation of that book and registers a fine if status is overdue.
+     * Then system updates status of reservation to COMPLETED and registers a fine for a lost of
+     * a book.
+     *
+     * Student is then notified about the fines registered to them. In addition, email notification
+     * is sent to librarians informing about a book lost.
+     *
+     * Finally, the borrowed book item's status is updated to LOST.
+     *
+     * @param book a Book object representing book's details.
+     * @param studentId a string value object representing a student's id.
+     * @return ResponseEntity object.
+     */
     public ResponseEntity<Object> reportLost(Book book, String studentId) {
 
         // todo make sure <> in query works
@@ -155,6 +206,15 @@ public class StudentService {
     }
 
 
+    /**
+     * Sends a message coming from a student asking something from a librarian.
+     * System sends message to all librarians.
+     *
+     * @param email a string value representing a receiver's mail address.
+     * @param message a string value representing message itself.
+     * @param topic a string value representing topic of a message.
+     * @return ResponseEntity object.
+     */
     public ResponseEntity<Object> askLibrarian(String topic, String message, String email) {
         List<Account> librarians = accountService.findAllByRole(AppUserRole.LIBRARIAN);
         librarians.forEach(librarian ->
