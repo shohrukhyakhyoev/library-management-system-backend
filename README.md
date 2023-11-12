@@ -1,3 +1,5 @@
+# Online Library Management System 
+
 This is Spring Boot Application that serves as Library Management System. It has 3 user models: admin, librarian and student. Each type of users are allowed to/can perform certain actions.
 
 Student can request, reserve, return books, access their history & active book reservations, manage their fines, send message to librarians and so on.
